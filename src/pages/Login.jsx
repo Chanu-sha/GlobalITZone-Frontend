@@ -32,25 +32,19 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // Show loading toast for slow connections
-      const loadingToast = toast.loading('Signing in... This may take a moment.');
-
       const result = isAdminLogin
         ? await adminLogin(formData.email, formData.password)
         : await login(formData.email, formData.password);
-
-      toast.dismiss(loadingToast);
 
       if (result.success) {
         toast.success(isAdminLogin ? 'Admin login successful!' : 'Login successful!');
         setSuccessLoginFlag(true);
       } else {
-        toast.error(result.error || 'Login failed. Please try again.');
+        toast.error(result.error);
         setLoading(false);
       }
     } catch (error) {
-      console.error('Login error:', error);
-      toast.error('An error occurred. Please check your connection and try again.');
+      toast.error('An error occurred. Please try again.');
       setLoading(false);
     }
   };
