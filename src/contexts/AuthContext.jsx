@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import api from '../utils/api';
-
 
 const AuthContext = createContext();
 
@@ -30,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await api.get('/api/auth/profile');
+      const response = await axios.get('/api/auth/profile');
       setUser(response.data.user);
       setIsAdmin(response.data.user.role === 'admin');
     } catch (error) {
@@ -44,7 +42,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await api.post('/api/auth/login', { email, password });
+      const response = await axios.post('/api/auth/login', { email, password });
       const { token, user } = response.data;
       
       localStorage.setItem('token', token);
@@ -64,7 +62,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const response = await api.post('/api/auth/register', userData);
+      const response = await axios.post('/api/auth/register', userData);
       const { token, user } = response.data;
       
       localStorage.setItem('token', token);
@@ -84,7 +82,7 @@ export const AuthProvider = ({ children }) => {
 
   const adminLogin = async (email, password) => {
     try {
-      const response = await api.post('/api/auth/admin-login', { email, password });
+      const response = await axios.post('/api/auth/admin-login', { email, password });
       const { token, user } = response.data;
       
       localStorage.setItem('token', token);
@@ -111,7 +109,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateProfile = async (userData) => {
     try {
-      const response = await api.put('/api/auth/profile', userData);
+      const response = await axios.put('/api/auth/profile', userData);
       setUser(response.data.user);
       return { success: true };
     } catch (error) {
